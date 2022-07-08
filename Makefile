@@ -1,9 +1,13 @@
 ###########################
 # Configuration Variables #
 ###########################
-export IMAGE_REPO ?= quay.io/tylerslaton/sample-api
+ORG ?= quay.io/tyslaton
 export IMAGE_TAG ?= latest
-IMAGE?=$(IMAGE_REPO):$(IMAGE_TAG)
+export IMAGE_REPO ?= $(ORG)/sample-api
+export BUNDLE_IMAGE_REPO ?= $(ORG)/sample-api-bundle
+IMAGE ?= $(IMAGE_REPO):$(IMAGE_TAG)
+BUNDLE_IMAGE ?= $(BUNDLE_IMAGE_REPO):$(IMAGE_TAG)
+
 CONTAINER_RUNTIME ?= docker
 KIND_CLUSTER_NAME ?= sample-api-cluster
 
@@ -48,13 +52,16 @@ build: clean ## Build the binary for the sample-api
 	CGO_ENABLED=0 go build -o sample-api
 
 build-container: build ## Build the container image locally
-	$(CONTAINER_RUNTIME) build -f Dockerfile -t $(IMAGE) .
+	$(CONTAINER_RUNTIME) build -f app.Dockerfile -t $(IMAGE) .
 
 run: ## Start the sample-api directly
 	CGO_ENABLED=0 go run main.go
 
 run-container: build-container ## Start the sample-api after building its container
-	docker run -p 8080:8080 $(IMAGE)
+	$(CONTAINER_RUNTIME) run -p 8080:8080 $(IMAGE)
+
+build-bundle:
+	$(CONTAINER_RUNTIME) build -f bundle.Dockerfile -t $(BUNDLE_IMAGE) .
 
 kind-load: build-container ## Load the current code onto the kind cluster as an image
 	kind load docker-image $(IMAGE) --name $(KIND_CLUSTER_NAME)
@@ -67,7 +74,7 @@ kind-cluster:
 install:
 	kubectl apply -f manifests
 
-deploy-local: kind-cluster kind-load install
+local: kind-cluster kind-load install
 
 ########
 # Test #

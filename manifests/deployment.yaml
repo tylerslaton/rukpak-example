@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: sample-api
-          image: quay.io/tylerslaton/sample-api:latest
+          image: quay.io/tyslaton/sample-api:latest
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8080
