@@ -5,6 +5,7 @@ export IMAGE_REPO ?= quay.io/tylerslaton/sample-api
 export IMAGE_TAG ?= latest
 IMAGE?=$(IMAGE_REPO):$(IMAGE_TAG)
 CONTAINER_RUNTIME ?= docker
+KIND_CLUSTER_NAME ?= sample-api-cluster
 
 ###############
 # Help Target #
@@ -54,6 +55,19 @@ run: ## Start the sample-api directly
 
 run-container: build-container ## Start the sample-api after building its container
 	docker run -p 8080:8080 $(IMAGE)
+
+kind-load: build-container ## Load the current code onto the kind cluster as an image
+	kind load docker-image $(IMAGE) --name $(KIND_CLUSTER_NAME)
+
+kind-cluster:
+	kind delete cluster --name $(KIND_CLUSTER_NAME)
+	kind create cluster --name $(KIND_CLUSTER_NAME)
+	kind export kubeconfig --name $(KIND_CLUSTER_NAME)
+
+install:
+	kubectl apply -f manifests
+
+deploy-local: kind-cluster kind-load install
 
 ########
 # Test #

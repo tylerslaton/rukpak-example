@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-api
+  labels:
+    app: sample-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-api
+  template:
+    metadata:
+      labels:
+        app: sample-api
+    spec:
+      containers:
+        - name: sample-api
+          image: quay.io/tylerslaton/sample-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
