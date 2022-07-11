@@ -1,0 +1,18 @@
+apiVersion: core.rukpak.io/v1alpha1
+kind: BundleDeployment
+metadata:
+  name: sample-api
+spec:
+  provisionerClassName: core.rukpak.io/plain
+  template:
+    metadata:
+      labels:
+        app: sample-api
+    spec:
+      provisionerClassName: core.rukpak.io/plain
+      source:
+        type: git
+        git:
+          repository: https://github.com/tylerslaton/rukpak-example
+          ref:
+            branch: main

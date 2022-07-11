@@ -1,2 +1,2 @@
 FROM scratch
-COPY /manifests /manifests
+COPY /manifests/bundle /manifests

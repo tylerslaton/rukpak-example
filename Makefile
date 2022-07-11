@@ -72,7 +72,7 @@ kind-cluster:
 	kind export kubeconfig --name $(KIND_CLUSTER_NAME)
 
 install:
-	kubectl apply -f manifests
+	kubectl apply -f manifests/bundle
 
 local: kind-cluster kind-load install
 
