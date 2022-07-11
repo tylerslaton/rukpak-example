@@ -15,4 +15,4 @@ spec:
         git:
           repository: https://github.com/tylerslaton/rukpak-example
           ref:
-            branch: main
+            tag: v0.0.1
