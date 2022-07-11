@@ -60,9 +60,6 @@ run: ## Start the sample-api directly
 run-container: build-container ## Start the sample-api after building its container
 	$(CONTAINER_RUNTIME) run -p 8080:8080 $(IMAGE)
 
-build-bundle:
-	$(CONTAINER_RUNTIME) build -f bundle.Dockerfile -t $(BUNDLE_IMAGE) .
-
 kind-load: build-container ## Load the current code onto the kind cluster as an image
 	kind load docker-image $(IMAGE) --name $(KIND_CLUSTER_NAME)
 
@@ -72,7 +69,7 @@ kind-cluster:
 	kind export kubeconfig --name $(KIND_CLUSTER_NAME)
 
 install:
-	kubectl apply -f manifests/bundle
+	kubectl apply -f manifests
 
 local: kind-cluster kind-load install
 
