@@ -19,7 +19,6 @@ Essentially, `RukPak` is a way of safely extending our cluster's functionality w
 ## Prequisites
 
 - [Go 1.18](https://go.dev/dl/)
-- [OpenShift Local](https://access.redhat.com/documentation/en-us/red_hat_openshift_local/2.5/html/getting_started_guide/index)
 - [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 
 ## Exploring our application
@@ -132,11 +131,10 @@ You can use any flavor of cluster you want for the purposes of this demonstratio
 > **Note**: If you are using OpenShift, feel free to replace any reference to `kubectl` with `oc`.
 
 ### Installing RukPak
-At the time of writing, the most recent version of `RukPak` is v0.6.0 and releases are done about every three weeks. Installing the latest release is as simple as going to [the release page](https://github.com/operator-framework/rukpak/releases) and following the instructuions. You'll known when to come back when the installation succeeds and the following command produces this output:
+At the time of writing, the most recent version of `RukPak` is v0.6.0 and releases are done about every three weeks. Installing the latest release is as simple as going to [the release page](https://github.com/operator-framework/rukpak/releases) and following the instructuions. You'll known when to come back when the installation succeeds and the following command produces results:
 
 ```
 $ kubectl get crd | grep "rukpak"
-TODO - add
 ```
 
 ### Setting up ArgoCD
@@ -152,6 +150,7 @@ First, we need to define some meta data around the application as well as how sy
 ![](https://i.imgur.com/vhB7Zfn.png)
 
 Next we need to begin defining what resource (`git` or `helm` based) we want to use. Here we are defining the [rukpak-example](https://github.com/tylerslaton/rukpak-example) repository and point it to the `rukpak` directory in its path.
+
 ![](https://i.imgur.com/7XJy9lc.png)
 
 Finally, we need to define what cluster we are going to write to. If you don't have the cluster you're looking for defined in the drop down here, you probably missed [this step](https://argo-cd.readthedocs.io/en/stable/getting_started/#5-register-a-cluster-to-deploy-apps-to-optional) in `ArgoCD`'s documentation. In this example, we just use the default kubernetes service.
