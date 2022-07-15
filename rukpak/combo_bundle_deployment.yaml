@@ -1,0 +1,16 @@
+apiVersion: core.rukpak.io/v1alpha1
+kind: BundleDeployment
+metadata:
+  name: combo
+spec:
+  provisionerClassName: core.rukpak.io/plain
+  template:
+    metadata:
+      labels:
+        app: combo
+    spec:
+      provisionerClassName: core.rukpak.io/plain
+      source:
+        image:
+          ref: quay.io/operator-framework/combo-bundle:v0.0.1
+        type: image
